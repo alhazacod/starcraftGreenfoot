@@ -1,0 +1,8 @@
+#BlueJ class context
+comment0.target=Protoss
+comment0.text=\n\ Write\ a\ description\ of\ class\ Protoss\ here.\n\ \n\ @author\ (your\ name)\ \n\ @version\ (a\ version\ number\ or\ a\ date)\n
+comment1.params=world
+comment1.target=Protoss(MyWorld)
+comment2.params=
+comment2.target=void\ troops()
+numComments=3

@@ -8,7 +8,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Label extends Actor
 {
-    public Label(String Text){
-        setImage(new GreenfootImage(Text, 10, Color.WHITE, null));
+    public Label(String Text, int size){
+        setImage(new GreenfootImage(Text, size, Color.BLACK, null));
     }  
 }
