@@ -23,7 +23,7 @@ public class Start extends World
         // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
         super(900, 420, 1);
         
-        startButton = new Label("Iniciar Juego", 40);
+        startButton = new Label("Iniciar Juego", 40, Color.BLACK);
         addObject(startButton, 450, 210);
     }
     
