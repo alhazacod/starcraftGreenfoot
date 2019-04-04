@@ -9,4 +9,6 @@ comment3.params=
 comment3.target=void\ wrong()
 comment4.params=rol
 comment4.target=void\ setRol(int)
-numComments=5
+comment5.params=e
+comment5.target=void\ addEnergy(int)
+numComments=6

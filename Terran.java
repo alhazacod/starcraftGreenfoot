@@ -8,12 +8,18 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Terran extends Actor
 {
+    Actor warriorCollision;
+    Actor medicCollision;
+    Actor builderCollision;
+    
     public String sprite;
     public String wrongSprite;
     
     public int rol;
     
     public int energy;
+    
+    boolean move;
     
     //There are 3 rols 
     //1: warrior
@@ -29,12 +35,14 @@ public class Terran extends Actor
         
         energy = 100;
         
+        move = true;
+        
         wrongSprite = "skull.png";
     }
     
     public void act() 
     {
-        setImage(this.sprite);
+        if(energy>160) energy = 160;//max energy 160
     }    
     
     public void wrong(){
@@ -45,5 +53,9 @@ public class Terran extends Actor
         this.rol = rol;
         
         //setImage(sprite);
+    }
+    
+    public void addEnergy(int e){
+        energy += e;
     }
 }

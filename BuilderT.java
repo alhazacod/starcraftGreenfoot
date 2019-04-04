@@ -16,5 +16,34 @@ public class BuilderT extends Terran
     public void act() 
     {
         // Add your action code here.
-    }    
+    }  
+    public void checkCollision(){
+        warriorCollision = this.getOneIntersectingObject(WarriorP.class);
+        if(warriorCollision != null){
+            collision();
+            this.energy -= 30;
+        }else{
+            noCollision();
+        }
+        medicCollision = this.getOneIntersectingObject(MedicP.class);
+        if(medicCollision != null){
+            collision();
+            this.energy -= 50;
+        }else{
+            noCollision();
+        }
+        builderCollision = this.getOneIntersectingObject(BuilderP.class);
+        if(builderCollision != null){
+            collision();
+            this.energy -= 50;
+        }else{
+            noCollision();
+        }
+    }
+    public void collision(){
+        move = false;
+    }
+    public void noCollision(){
+        move = true;
+    }  
 }

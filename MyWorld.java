@@ -51,6 +51,8 @@ public class MyWorld extends World
     Button right;
     Button left;
     
+    int protossE;
+    int terranE;
     Label protossEnergy;
     Label terranEnergy;
     
@@ -90,8 +92,10 @@ public class MyWorld extends World
         
         turno = 1;
         
-        protossEnergy = new Label("Energia: ", 10, Color.BLACK);
-        terranEnergy = new Label("Energia: ", 10, Color.BLACK);
+        protossE = 0;
+        terranE = 0;
+        protossEnergy = new Label("Energia: ", 20, Color.BLACK);
+        terranEnergy = new Label("Energia: ", 20, Color.BLACK);
     }
     
     public void act(){
@@ -101,13 +105,38 @@ public class MyWorld extends World
                              ((rol==1) ? "guerrero" : 
                               (rol==2) ? "medico" : "constructor"));
        }else{
-           if(turno == 1){
+           if(turno == 1){//Protoss team iteration
                moveProtoss();
-           }else{
+           }else{//Terran team iteration
                moveTerran();
            }
+           
+           //calculate the energy
+           getTotalEnergy();
+           protossEnergy.setText("Energy: "+protossE);//print the total energy
+           terranEnergy.setText("Energy: "+terranE);//print te total energy
        }
-       
+    }
+    
+    private void getTotalEnergy(){
+        protossE = 0;
+        for(int j = 0; j<499; j++){//move all the troops
+            if(warriorP[j].getWorld()!=null)//check if the element exist on the world
+                protossE += warriorP[j].energy;//add the energy to the total
+            if(medicP[j].getWorld()!=null)//check if the element exist on the world
+                protossE += medicP[j].energy;//add the energy to the total
+            if(builderP[j].getWorld()!=null)//check if the element exist on the world
+                protossE += builderP[j].energy;//add the energy to the total
+        }
+        terranE = 0;
+        for(int j = 0; j<499; j++){//move all the troops
+            if(warriorT[j].getWorld()!=null)//check if the element exist on the world
+                terranE += warriorT[j].energy;//add the energy to the total
+            if(medicT[j].getWorld()!=null)//check if the element exist on the world
+                terranE += medicT[j].energy;//add the energy to the total
+            if(builderT[j].getWorld()!=null)//check if the element exist on the world
+                terranE += builderT[j].energy;//add the energy to the total
+        }
     }
     
     private void initializeTroops(){
@@ -136,6 +165,16 @@ public class MyWorld extends World
                 terranReady=true;
                 notificator.setText("ready");
                 troopsInitialized = true;
+                
+                for(int j = 0; j<499; j++){//move all the troops
+                    if(warriorT[j].getWorld()!=null)//check if the element exist on the world
+                        terranE += warriorT[j].energy;//add the energy to the total
+                    if(medicT[j].getWorld()!=null)//check if the element exist on the world
+                        terranE += medicT[j].energy;//add the energy to the total
+                    if(builderT[j].getWorld()!=null)//check if the element exist on the world
+                        terranE += builderT[j].energy;//add the energy to the total
+                }
+                
                 //let's create the gamepad
                 up = new Button("up.png");
                 addObject(up, 90, 40);
@@ -145,6 +184,10 @@ public class MyWorld extends World
                 addObject(right, 140, 90);
                 left = new Button("left.png");
                 addObject(left, 40, 90);
+                
+                //add the energy indicator
+                addObject(protossEnergy, 100,getHeight()-20);
+                addObject(terranEnergy, getWidth()-100,getHeight()-20);
             }
         }
         //notificator.setText(String.valueOf(i));
@@ -169,17 +212,17 @@ public class MyWorld extends World
                 {
                     //Create the next soldier
                     i++;
-                    if(rol==1){
+                    if(rol==1 && i!=troopSize){
                     warriorP[i] = new WarriorP();
                     addObject(warriorP[i], ((mouse.getX()/squareSize)*squareSize)+(squareSize/2),
                                           ((mouse.getY()/squareSize)*squareSize)+(squareSize/2));
                     }
-                    if(rol==2){
+                    if(rol==2 && i!=troopSize){
                     medicP[i] = new MedicP();
                     addObject(medicP[i], ((mouse.getX()/squareSize)*squareSize)+(squareSize/2),
                                           ((mouse.getY()/squareSize)*squareSize)+(squareSize/2));
                     }
-                    if(rol==3){
+                    if(rol==3 && i!=troopSize){
                     builderP[i] = new BuilderP();
                     addObject(builderP[i], ((mouse.getX()/squareSize)*squareSize)+(squareSize/2),
                                           ((mouse.getY()/squareSize)*squareSize)+(squareSize/2));
@@ -226,17 +269,17 @@ public class MyWorld extends World
                 {
                     //Create the next soldier
                     i++;
-                    if(rol==1){
+                    if(rol==1 && i!=troopSize){
                     warriorT[i] = new WarriorT();
                     addObject(warriorT[i], ((mouse.getX()/squareSize)*squareSize)+(squareSize/2),
                                           ((mouse.getY()/squareSize)*squareSize)+(squareSize/2));
                     }
-                    if(rol==2){
+                    if(rol==2 && i!=troopSize){
                     medicT[i] = new MedicT();
                     addObject(medicT[i], ((mouse.getX()/squareSize)*squareSize)+(squareSize/2),
                                           ((mouse.getY()/squareSize)*squareSize)+(squareSize/2));
                     }
-                    if(rol==3){
+                    if(rol==3 && i!=troopSize){
                     builderT[i] = new BuilderT();
                     addObject(builderT[i], ((mouse.getX()/squareSize)*squareSize)+(squareSize/2),
                                           ((mouse.getY()/squareSize)*squareSize)+(squareSize/2));
@@ -267,48 +310,80 @@ public class MyWorld extends World
         //movement w/ gamepad
         if(Greenfoot.mouseClicked(up)){
             turno=2;
+            for(int j = 0; j<499; j++){//check all the troops collisions
+                    if(warriorP[j].getWorld()!=null)//check if the element exist on the world
+                        warriorP[j].checkCollision();
+                    if(medicP[j].getWorld()!=null)//check if the element exist on the world
+                        medicP[j].checkCollision();
+                    if(builderP[j].getWorld()!=null)//check if the element exist on the world
+                        builderP[j].checkCollision();
+               }
             for(int j = 0; j<499; j++){//move all the troops
-                if(warriorP[j].getWorld()!=null)//check if the element exist on the world
+                if(warriorP[j].getWorld()!=null && warriorP[j].move == true)//check if the element exist on the world
                     warriorP[j].setLocation(warriorP[j].getX(),warriorP[j].getY()-squareSize);
-                if(medicP[j].getWorld()!=null)//check if the element exist on the world
+                if(medicP[j].getWorld()!=null && medicP[j].move == true)//check if the element exist on the world
                     medicP[j].setLocation(medicP[j].getX(),medicP[j].getY()-squareSize);
-                if(builderP[j].getWorld()!=null)//check if the element exist on the world
+                if(builderP[j].getWorld()!=null && builderP[j].move == true)//check if the element exist on the world
                     builderP[j].setLocation(builderP[j].getX(),builderP[j].getY()-squareSize);
             }
         }
             
         if(Greenfoot.mouseClicked(down)){
             turno=2;
+            for(int j = 0; j<499; j++){//check all the troops collisions
+                    if(warriorP[j].getWorld()!=null)//check if the element exist on the world
+                        warriorP[j].checkCollision();
+                    if(medicP[j].getWorld()!=null)//check if the element exist on the world
+                        medicP[j].checkCollision();
+                    if(builderP[j].getWorld()!=null)//check if the element exist on the world
+                        builderP[j].checkCollision();
+               }
             for(int j = 0; j<499; j++){
-                if(warriorP[j].getWorld()!=null)
+                if(warriorP[j].getWorld()!=null && warriorP[j].move == true)
                     warriorP[j].setLocation(warriorP[j].getX(),warriorP[j].getY()+squareSize);
-                if(medicP[j].getWorld()!=null)
+                if(medicP[j].getWorld()!=null && medicP[j].move == true)
                     medicP[j].setLocation(medicP[j].getX(),medicP[j].getY()+squareSize);
-                if(builderP[j].getWorld()!=null)
+                if(builderP[j].getWorld()!=null && builderP[j].move == true)
                     builderP[j].setLocation(builderP[j].getX(),builderP[j].getY()+squareSize);
             }
         }
             
         if(Greenfoot.mouseClicked(right)){
             turno=2;
+            for(int j = 0; j<499; j++){//check all the troops collisions
+                    if(warriorP[j].getWorld()!=null)//check if the element exist on the world
+                        warriorP[j].checkCollision();
+                    if(medicP[j].getWorld()!=null)//check if the element exist on the world
+                        medicP[j].checkCollision();
+                    if(builderP[j].getWorld()!=null)//check if the element exist on the world
+                        builderP[j].checkCollision();
+               }
             for(int j = 0; j<499; j++){
-                if(warriorP[j].getWorld()!=null)
+                if(warriorP[j].getWorld()!=null && warriorP[j].move == true)
                     warriorP[j].setLocation(warriorP[j].getX()+squareSize,warriorP[j].getY());
-                if(medicP[j].getWorld()!=null)
+                if(medicP[j].getWorld()!=null && medicP[j].move == true)
                     medicP[j].setLocation(medicP[j].getX()+squareSize,medicP[j].getY());
-                if(builderP[j].getWorld()!=null)
+                if(builderP[j].getWorld()!=null && builderP[j].move == true)
                     builderP[j].setLocation(builderP[j].getX()+squareSize,builderP[j].getY());
             }
         }
             
         if(Greenfoot.mouseClicked(left)){
             turno=2;
+            for(int j = 0; j<499; j++){//check all the troops collisions
+                    if(warriorP[j].getWorld()!=null)//check if the element exist on the world
+                        warriorP[j].checkCollision();
+                    if(medicP[j].getWorld()!=null)//check if the element exist on the world
+                        medicP[j].checkCollision();
+                    if(builderP[j].getWorld()!=null)//check if the element exist on the world
+                        builderP[j].checkCollision();
+               }
             for(int j = 0; j<499; j++){
-                if(warriorP[j].getWorld()!=null)
+                if(warriorP[j].getWorld()!=null && warriorP[j].move == true)
                     warriorP[j].setLocation(warriorP[j].getX()-squareSize,warriorP[j].getY());
-                if(medicP[j].getWorld()!=null)
+                if(medicP[j].getWorld()!=null && medicP[j].move == true)
                     medicP[j].setLocation(medicP[j].getX()-squareSize,medicP[j].getY());
-                if(builderP[j].getWorld()!=null)
+                if(builderP[j].getWorld()!=null && builderP[j].move == true)
                     builderP[j].setLocation(builderP[j].getX()-squareSize,builderP[j].getY());
             }
         }
@@ -317,48 +392,80 @@ public class MyWorld extends World
         //movement w/ gamepad
         if(Greenfoot.mouseClicked(up)){
             turno=1;
+            for(int j = 0; j<499; j++){//check all the troops collisions
+                    if(warriorT[j].getWorld()!=null)//check if the element exist on the world
+                        warriorT[j].checkCollision();
+                    if(medicT[j].getWorld()!=null)//check if the element exist on the world
+                        medicT[j].checkCollision();
+                    if(builderT[j].getWorld()!=null)//check if the element exist on the world
+                        builderT[j].checkCollision();
+               }
             for(int j = 0; j<499; j++){//move all the troops
-                if(warriorT[j].getWorld()!=null)//check if the element exist on the world
+                if(warriorT[j].getWorld()!=null && warriorT[j].move == true)//check if the element exist on the world
                     warriorT[j].setLocation(warriorT[j].getX(),warriorT[j].getY()-squareSize);
-                if(medicT[j].getWorld()!=null)//check if the element exist on the world
+                if(medicT[j].getWorld()!=null && warriorT[j].move == true)//check if the element exist on the world
                     medicT[j].setLocation(medicT[j].getX(),medicT[j].getY()-squareSize);
-                if(builderT[j].getWorld()!=null)//check if the element exist on the world
+                if(builderT[j].getWorld()!=null && warriorT[j].move == true)//check if the element exist on the world
                     builderT[j].setLocation(builderT[j].getX(),builderT[j].getY()-squareSize);
             }
         }
             
         if(Greenfoot.mouseClicked(down)){
             turno=1;
+            for(int j = 0; j<499; j++){//check all the troops collisions
+                    if(warriorT[j].getWorld()!=null)//check if the element exist on the world
+                        warriorT[j].checkCollision();
+                    if(medicT[j].getWorld()!=null)//check if the element exist on the world
+                        medicT[j].checkCollision();
+                    if(builderT[j].getWorld()!=null)//check if the element exist on the world
+                        builderT[j].checkCollision();
+               }
             for(int j = 0; j<499; j++){
-                if(warriorT[j].getWorld()!=null)
+                if(warriorT[j].getWorld()!=null && warriorT[j].move == true)
                     warriorT[j].setLocation(warriorT[j].getX(),warriorT[j].getY()+squareSize);
-                if(medicT[j].getWorld()!=null)
+                if(medicT[j].getWorld()!=null && warriorT[j].move == true)
                     medicT[j].setLocation(medicT[j].getX(),medicT[j].getY()+squareSize);
-                if(builderT[j].getWorld()!=null)
+                if(builderT[j].getWorld()!=null && warriorT[j].move == true)
                     builderT[j].setLocation(builderT[j].getX(),builderT[j].getY()+squareSize);
             }
         }
             
         if(Greenfoot.mouseClicked(right)){
             turno=1;
+            for(int j = 0; j<499; j++){//check all the troops collisions
+                    if(warriorT[j].getWorld()!=null)//check if the element exist on the world
+                        warriorT[j].checkCollision();
+                    if(medicT[j].getWorld()!=null)//check if the element exist on the world
+                        medicT[j].checkCollision();
+                    if(builderT[j].getWorld()!=null)//check if the element exist on the world
+                        builderT[j].checkCollision();
+               }
             for(int j = 0; j<499; j++){
-                if(warriorT[j].getWorld()!=null)
+                if(warriorT[j].getWorld()!=null && warriorT[j].move == true)
                     warriorT[j].setLocation(warriorT[j].getX()+squareSize,warriorT[j].getY());
-                if(medicT[j].getWorld()!=null)
+                if(medicT[j].getWorld()!=null && warriorT[j].move == true)
                     medicT[j].setLocation(medicT[j].getX()+squareSize,medicT[j].getY());
-                if(builderT[j].getWorld()!=null)
+                if(builderT[j].getWorld()!=null && warriorT[j].move == true)
                     builderT[j].setLocation(builderT[j].getX()+squareSize,builderT[j].getY());
             }
         }
             
         if(Greenfoot.mouseClicked(left)){
             turno=1;
+            for(int j = 0; j<499; j++){//check all the troops collisions
+                    if(warriorT[j].getWorld()!=null)//check if the element exist on the world
+                        warriorT[j].checkCollision();
+                    if(medicT[j].getWorld()!=null)//check if the element exist on the world
+                        medicT[j].checkCollision();
+                    if(builderT[j].getWorld()!=null)//check if the element exist on the world
+                        builderT[j].checkCollision();
+               }
             for(int j = 0; j<499; j++){
-                if(warriorT[j].getWorld()!=null)
+                if(warriorT[j].getWorld()!=null && warriorT[j].move == true)
                     warriorT[j].setLocation(warriorT[j].getX()-squareSize,warriorT[j].getY());
-                if(medicT[j].getWorld()!=null)
+                if(medicT[j].getWorld()!=null && warriorT[j].move == true)
                     medicT[j].setLocation(medicT[j].getX()-squareSize,medicT[j].getY());
-                if(builderT[j].getWorld()!=null)
+                if(builderT[j].getWorld()!=null && warriorT[j].move == true)
                     builderT[j].setLocation(builderT[j].getX()-squareSize,builderT[j].getY());
             }
         }

@@ -1,5 +1,6 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
-
+import javax.swing.JOptionPane;
+import javax.swing.JFrame;
 /**
  * Write a description of class Protoss here.
  * 
@@ -8,12 +9,20 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Protoss extends Actor
 {
+    Actor warriorCollision;
+    Actor medicCollision;
+    Actor builderCollision;
+    
     public String sprite;
     public String wrongSprite;
     
     public int rol;
     
     public int energy;
+    
+    private int daño;
+    
+    public boolean move;
     
     //There are 3 rols 
     //1: warrior
@@ -29,13 +38,15 @@ public class Protoss extends Actor
         
         energy = 100;
         
+        move = true;
+        
         wrongSprite = "skull.png";
     }
     
     public void act() 
     {
         setImage(this.sprite);
-        if(energy>160) energy = 160;
+        if(energy>160) energy = 160;//max energy 160
     }    
     
     public void wrong(){
@@ -46,5 +57,9 @@ public class Protoss extends Actor
         this.rol = rol;
         
         //setImage(sprite);
+    }
+    
+    public void addEnergy(int e){
+        energy += e;
     }
 }
