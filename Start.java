@@ -30,7 +30,8 @@ public class Start extends World
     public void act(){
         if(Greenfoot.mouseClicked(startButton)){ //click action
             String troopSize = JOptionPane.showInputDialog("Ingrese el tamaño de las tropas");
-            Greenfoot.setWorld(new MyWorld(Integer.valueOf(troopSize)));
+            String iterations = JOptionPane.showInputDialog("Ingrese la cantidad de iteraciones");
+            Greenfoot.setWorld(new MyWorld(Integer.valueOf(troopSize), Integer.valueOf(iterations)));
         }
     }
 }

@@ -28,6 +28,7 @@ public class MyWorld extends World
     public Terran[] terran;
 
     int i;
+    int iterations;
     Notification notificator;
     
     int turno;
@@ -56,7 +57,7 @@ public class MyWorld extends World
     Label protossEnergy;
     Label terranEnergy;
     
-    public MyWorld(int troopSize)
+    public MyWorld(int troopSize, int iterations)
     {
         // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
         super(900, 420, 1);
@@ -69,6 +70,8 @@ public class MyWorld extends World
         addObject(notificator, getWidth()/2, getHeight()-30);
         
         rol = 1;
+        
+        this.iterations = iterations;
         
         //Create the protoss's troops
         protoss = new Protoss[500];
@@ -103,18 +106,24 @@ public class MyWorld extends World
            initializeTroops();
            notificator.setText("rol "+ 
                              ((rol==1) ? "guerrero" : 
-                              (rol==2) ? "medico" : "constructor"));
+                              (rol==2) ? "medico" :
+                                         "constructor"));
        }else{
-           if(turno == 1){//Protoss team iteration
-               moveProtoss();
-           }else{//Terran team iteration
-               moveTerran();
+           if(i<iterations){
+               if(turno == 1){//Protoss team iteration
+                   moveProtoss();
+               }else{//Terran team iteration
+                   moveTerran();
+               }
+               //calculate the energy
+               getTotalEnergy();
+               protossEnergy.setText("Energy: "+protossE);//print the total energy
+               terranEnergy.setText("Energy: "+terranE);//print te total energy
+           }else{
+               if(protossE>terranE) Greenfoot.setWorld(new Win("PROTOSS!"));
+               else Greenfoot.setWorld(new Win("TERRAN!"));
            }
-           
-           //calculate the energy
-           getTotalEnergy();
-           protossEnergy.setText("Energy: "+protossE);//print the total energy
-           terranEnergy.setText("Energy: "+terranE);//print te total energy
+            
        }
     }
     
@@ -310,6 +319,7 @@ public class MyWorld extends World
         //movement w/ gamepad
         if(Greenfoot.mouseClicked(up)){
             turno=2;
+            i++;
             for(int j = 0; j<499; j++){//check all the troops collisions
                     if(warriorP[j].getWorld()!=null)//check if the element exist on the world
                         warriorP[j].checkCollision();
@@ -330,6 +340,7 @@ public class MyWorld extends World
             
         if(Greenfoot.mouseClicked(down)){
             turno=2;
+            i++;
             for(int j = 0; j<499; j++){//check all the troops collisions
                     if(warriorP[j].getWorld()!=null)//check if the element exist on the world
                         warriorP[j].checkCollision();
@@ -350,6 +361,7 @@ public class MyWorld extends World
             
         if(Greenfoot.mouseClicked(right)){
             turno=2;
+            i++;
             for(int j = 0; j<499; j++){//check all the troops collisions
                     if(warriorP[j].getWorld()!=null)//check if the element exist on the world
                         warriorP[j].checkCollision();
@@ -370,6 +382,7 @@ public class MyWorld extends World
             
         if(Greenfoot.mouseClicked(left)){
             turno=2;
+            i++;
             for(int j = 0; j<499; j++){//check all the troops collisions
                     if(warriorP[j].getWorld()!=null)//check if the element exist on the world
                         warriorP[j].checkCollision();
@@ -392,6 +405,7 @@ public class MyWorld extends World
         //movement w/ gamepad
         if(Greenfoot.mouseClicked(up)){
             turno=1;
+            i++;
             for(int j = 0; j<499; j++){//check all the troops collisions
                     if(warriorT[j].getWorld()!=null)//check if the element exist on the world
                         warriorT[j].checkCollision();
@@ -412,6 +426,7 @@ public class MyWorld extends World
             
         if(Greenfoot.mouseClicked(down)){
             turno=1;
+            i++;
             for(int j = 0; j<499; j++){//check all the troops collisions
                     if(warriorT[j].getWorld()!=null)//check if the element exist on the world
                         warriorT[j].checkCollision();
@@ -432,6 +447,7 @@ public class MyWorld extends World
             
         if(Greenfoot.mouseClicked(right)){
             turno=1;
+            i++;
             for(int j = 0; j<499; j++){//check all the troops collisions
                     if(warriorT[j].getWorld()!=null)//check if the element exist on the world
                         warriorT[j].checkCollision();
@@ -452,6 +468,7 @@ public class MyWorld extends World
             
         if(Greenfoot.mouseClicked(left)){
             turno=1;
+            i++;
             for(int j = 0; j<499; j++){//check all the troops collisions
                     if(warriorT[j].getWorld()!=null)//check if the element exist on the world
                         warriorT[j].checkCollision();

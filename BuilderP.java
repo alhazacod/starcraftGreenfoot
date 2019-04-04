@@ -20,7 +20,6 @@ public class BuilderP extends Protoss
     
     public void collision(){
         move = false;
-        
     }
     public void noCollision(){
         move = true;

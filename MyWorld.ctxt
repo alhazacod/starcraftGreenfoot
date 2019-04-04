@@ -1,8 +1,8 @@
 #BlueJ class context
 comment0.target=MyWorld
 comment0.text=\n\ Write\ a\ description\ of\ class\ MyWorld\ here.\n\ \n\ @author\ (your\ name)\ \n\ @version\ (a\ version\ number\ or\ a\ date)\n
-comment1.params=troopSize
-comment1.target=MyWorld(int)
+comment1.params=troopSize\ iterations
+comment1.target=MyWorld(int,\ int)
 comment2.params=
 comment2.target=void\ act()
 comment3.params=
