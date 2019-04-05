@@ -11,4 +11,6 @@ comment4.params=rol
 comment4.target=void\ setRol(int)
 comment5.params=e
 comment5.target=void\ addEnergy(int)
-numComments=6
+comment6.params=
+comment6.target=void\ checkMedic()
+numComments=7

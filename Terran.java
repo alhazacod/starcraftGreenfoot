@@ -58,4 +58,20 @@ public class Terran extends Actor
     public void addEnergy(int e){
         energy += e;
     }
+    
+    public void checkMedic(){
+        Actor closest = null; // to hold closest ball, if any
+        int closeness = 50; // how close closest ball found so far is
+        for (Object obj : getWorld().getObjects(MedicT.class)) // for each ball in world (as Object object)
+        {
+            Actor medic = (Actor) obj; // cast as Actor object
+            int distance = (int)Math.hypot(medic.getX()-getX(), medic.getY()-getY()); // get distance
+            if (closest == null || distance < closeness) // if first ball or closer ball
+            {
+                closest = medic;
+                closeness = distance;
+                this.energy += 20;
+            }
+        }
+    }
 }

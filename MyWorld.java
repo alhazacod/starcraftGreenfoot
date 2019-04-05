@@ -120,8 +120,8 @@ public class MyWorld extends World
                protossEnergy.setText("Energy: "+protossE);//print the total energy
                terranEnergy.setText("Energy: "+terranE);//print te total energy
            }else{
-               if(protossE>terranE) Greenfoot.setWorld(new Win("PROTOSS!"));
-               else Greenfoot.setWorld(new Win("TERRAN!"));
+               if(protossE>terranE) Greenfoot.setWorld(new Win("LOS PROTOSS HAN VENCIDO!"));
+               else Greenfoot.setWorld(new Win("LOS TERRAN HAN VENCIDO!"));
            }
             
        }
@@ -197,6 +197,8 @@ public class MyWorld extends World
                 //add the energy indicator
                 addObject(protossEnergy, 100,getHeight()-20);
                 addObject(terranEnergy, getWidth()-100,getHeight()-20);
+                
+                notificator.setText("");
             }
         }
         //notificator.setText(String.valueOf(i));
@@ -321,13 +323,17 @@ public class MyWorld extends World
             turno=2;
             i++;
             for(int j = 0; j<499; j++){//check all the troops collisions
-                    if(warriorP[j].getWorld()!=null)//check if the element exist on the world
-                        warriorP[j].checkCollision();
-                    if(medicP[j].getWorld()!=null)//check if the element exist on the world
-                        medicP[j].checkCollision();
-                    if(builderP[j].getWorld()!=null)//check if the element exist on the world
-                        builderP[j].checkCollision();
-               }
+                if(warriorP[j].getWorld()!=null){//check if the element exist on the world
+                    warriorP[j].checkCollision();
+                    warriorP[j].checkMedic();//check if a medic is near
+                }
+                if(medicP[j].getWorld()!=null)//check if the element exist on the world
+                    medicP[j].checkCollision();
+                if(builderP[j].getWorld()!=null){//check if the element exist on the world
+                    builderP[j].checkCollision();
+                    builderP[j].checkMedic();//check if a medic is near
+                }
+            }
             for(int j = 0; j<499; j++){//move all the troops
                 if(warriorP[j].getWorld()!=null && warriorP[j].move == true)//check if the element exist on the world
                     warriorP[j].setLocation(warriorP[j].getX(),warriorP[j].getY()-squareSize);
@@ -342,13 +348,17 @@ public class MyWorld extends World
             turno=2;
             i++;
             for(int j = 0; j<499; j++){//check all the troops collisions
-                    if(warriorP[j].getWorld()!=null)//check if the element exist on the world
-                        warriorP[j].checkCollision();
-                    if(medicP[j].getWorld()!=null)//check if the element exist on the world
-                        medicP[j].checkCollision();
-                    if(builderP[j].getWorld()!=null)//check if the element exist on the world
-                        builderP[j].checkCollision();
-               }
+                if(warriorP[j].getWorld()!=null){//check if the element exist on the world
+                    warriorP[j].checkCollision();
+                    warriorP[j].checkMedic();//check if a medic is near
+                }
+                if(medicP[j].getWorld()!=null)//check if the element exist on the world
+                    medicP[j].checkCollision();
+                if(builderP[j].getWorld()!=null){//check if the element exist on the world
+                    builderP[j].checkCollision();
+                    builderP[j].checkMedic();//check if a medic is near
+                }
+           }
             for(int j = 0; j<499; j++){
                 if(warriorP[j].getWorld()!=null && warriorP[j].move == true)
                     warriorP[j].setLocation(warriorP[j].getX(),warriorP[j].getY()+squareSize);
@@ -363,12 +373,16 @@ public class MyWorld extends World
             turno=2;
             i++;
             for(int j = 0; j<499; j++){//check all the troops collisions
-                    if(warriorP[j].getWorld()!=null)//check if the element exist on the world
+                    if(warriorP[j].getWorld()!=null){//check if the element exist on the world
                         warriorP[j].checkCollision();
+                        warriorP[j].checkMedic();//check if a medic is near
+                    }
                     if(medicP[j].getWorld()!=null)//check if the element exist on the world
                         medicP[j].checkCollision();
-                    if(builderP[j].getWorld()!=null)//check if the element exist on the world
+                    if(builderP[j].getWorld()!=null){//check if the element exist on the world
                         builderP[j].checkCollision();
+                        builderP[j].checkMedic();//check if a medic is near
+                    }
                }
             for(int j = 0; j<499; j++){
                 if(warriorP[j].getWorld()!=null && warriorP[j].move == true)
@@ -384,12 +398,16 @@ public class MyWorld extends World
             turno=2;
             i++;
             for(int j = 0; j<499; j++){//check all the troops collisions
-                    if(warriorP[j].getWorld()!=null)//check if the element exist on the world
+                    if(warriorP[j].getWorld()!=null){//check if the element exist on the world
                         warriorP[j].checkCollision();
+                        warriorP[j].checkMedic();//check if a medic is near
+                    }
                     if(medicP[j].getWorld()!=null)//check if the element exist on the world
                         medicP[j].checkCollision();
-                    if(builderP[j].getWorld()!=null)//check if the element exist on the world
+                    if(builderP[j].getWorld()!=null){//check if the element exist on the world
                         builderP[j].checkCollision();
+                        builderP[j].checkMedic();//check if a medic is near
+                    }
                }
             for(int j = 0; j<499; j++){
                 if(warriorP[j].getWorld()!=null && warriorP[j].move == true)
@@ -407,13 +425,17 @@ public class MyWorld extends World
             turno=1;
             i++;
             for(int j = 0; j<499; j++){//check all the troops collisions
-                    if(warriorT[j].getWorld()!=null)//check if the element exist on the world
-                        warriorT[j].checkCollision();
-                    if(medicT[j].getWorld()!=null)//check if the element exist on the world
-                        medicT[j].checkCollision();
-                    if(builderT[j].getWorld()!=null)//check if the element exist on the world
-                        builderT[j].checkCollision();
-               }
+                if(warriorT[j].getWorld()!=null){//check if the element exist on the world
+                    warriorT[j].checkCollision();
+                    warriorT[j].checkMedic();//check if a medic is near
+                }
+                if(medicT[j].getWorld()!=null)//check if the element exist on the world
+                    medicT[j].checkCollision();
+                if(builderT[j].getWorld()!=null){//check if the element exist on the world
+                    builderT[j].checkCollision();
+                    builderT[j].checkMedic();//check if a medic is near
+                }
+           }
             for(int j = 0; j<499; j++){//move all the troops
                 if(warriorT[j].getWorld()!=null && warriorT[j].move == true)//check if the element exist on the world
                     warriorT[j].setLocation(warriorT[j].getX(),warriorT[j].getY()-squareSize);
@@ -428,12 +450,16 @@ public class MyWorld extends World
             turno=1;
             i++;
             for(int j = 0; j<499; j++){//check all the troops collisions
-                    if(warriorT[j].getWorld()!=null)//check if the element exist on the world
+                    if(warriorT[j].getWorld()!=null){//check if the element exist on the world
                         warriorT[j].checkCollision();
+                        warriorT[j].checkMedic();//check if a medic is near
+                    }
                     if(medicT[j].getWorld()!=null)//check if the element exist on the world
                         medicT[j].checkCollision();
-                    if(builderT[j].getWorld()!=null)//check if the element exist on the world
+                    if(builderT[j].getWorld()!=null){//check if the element exist on the world
                         builderT[j].checkCollision();
+                        builderT[j].checkMedic();//check if a medic is near
+                    }
                }
             for(int j = 0; j<499; j++){
                 if(warriorT[j].getWorld()!=null && warriorT[j].move == true)
@@ -449,12 +475,16 @@ public class MyWorld extends World
             turno=1;
             i++;
             for(int j = 0; j<499; j++){//check all the troops collisions
-                    if(warriorT[j].getWorld()!=null)//check if the element exist on the world
+                    if(warriorT[j].getWorld()!=null){//check if the element exist on the world
                         warriorT[j].checkCollision();
+                        warriorT[j].checkMedic();//check if a medic is near
+                    }
                     if(medicT[j].getWorld()!=null)//check if the element exist on the world
                         medicT[j].checkCollision();
-                    if(builderT[j].getWorld()!=null)//check if the element exist on the world
+                    if(builderT[j].getWorld()!=null){//check if the element exist on the world
                         builderT[j].checkCollision();
+                        builderT[j].checkMedic();//check if a medic is near
+                    }
                }
             for(int j = 0; j<499; j++){
                 if(warriorT[j].getWorld()!=null && warriorT[j].move == true)
@@ -468,14 +498,18 @@ public class MyWorld extends World
             
         if(Greenfoot.mouseClicked(left)){
             turno=1;
-            i++;
+            
             for(int j = 0; j<499; j++){//check all the troops collisions
-                    if(warriorT[j].getWorld()!=null)//check if the element exist on the world
+                    if(warriorT[j].getWorld()!=null){//check if the element exist on the world
                         warriorT[j].checkCollision();
+                        warriorT[j].checkMedic();//check if a medic is near
+                    }
                     if(medicT[j].getWorld()!=null)//check if the element exist on the world
                         medicT[j].checkCollision();
-                    if(builderT[j].getWorld()!=null)//check if the element exist on the world
+                    if(builderT[j].getWorld()!=null){//check if the element exist on the world
                         builderT[j].checkCollision();
+                        builderT[j].checkMedic();//check if a medic is near
+                    }
                }
             for(int j = 0; j<499; j++){
                 if(warriorT[j].getWorld()!=null && warriorT[j].move == true)
